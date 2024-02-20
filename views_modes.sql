@@ -1,6 +1,6 @@
 use tv_db;
 show tables;
-select title , rating, released_year, genre , first_name, last_name  from series join reviews on series.id = reviews.series_id join reviewers on reviewers.id = reviews.reviewer_id ;
+select title , rating, released_year, genre , first_name, last_name  from series join reviews on series.id = reviews.series_id join reviewers on reviewers.id = reviews.reviewer_id;
 
 -- view
 create view full_reviews as select title , rating, released_year, genre , first_name, last_name  from series join reviews on series.id = reviews.series_id join reviewers on reviewers.id = reviews.reviewer_id;
