@@ -55,3 +55,37 @@ FROM employees;
 select emp_no , department, salary , rank() over(partition by department order by salary desc) as overall_salary_rank from employees;
 select emp_no , department, salary , rank() over(partition by department order by salary desc),rank() over(order by salary desc) as overall_salary_rank from employees;
 
+-- dense_rank() , row_number()
+select emp_no , department, salary , row_number() over(partition by department order by salary) , row_number() over(partition by department) from employees;
+
+-- dense_rank() unlike rank() it does not skip number to assign when there is a tie
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    ROW_NUMBER() OVER(PARTITION BY department ORDER BY SALARY DESC) as dept_row_number,
+    RANK() OVER(PARTITION BY department ORDER BY SALARY DESC) as dept_salary_rank,
+    RANK() OVER(ORDER BY salary DESC) as overall_rank,
+    DENSE_RANK() OVER(ORDER BY salary DESC) as overall_dense_rank,
+    ROW_NUMBER() OVER(ORDER BY salary DESC) as overall_num
+FROM employees ORDER BY overall_rank;
+
+-- ntile()
+select emp_no , department, salary , 
+ntile(4) over(partition by department order by salary),
+ntile(4) over(order by salary desc) as quartile 
+from employees;
+
+-- first_value()
+select emp_no , department, salary , 
+first_value(emp_no) over(partition by department order by salary desc) as highest_paid_dept, 
+first_value(emp_no) over(order by salary desc) from employees;
+
+-- lead() and lag()
+select emp_no , department , salary 
+, salary-lag(salary) over(order by salary desc) from employees;
+select emp_no , department , salary 
+, salary-lead(salary) over(partition by department order by salary desc) from employees;
+select emp_no , department , salary , lag(salary ,2) over(order by salary desc) from employees;
+
+
