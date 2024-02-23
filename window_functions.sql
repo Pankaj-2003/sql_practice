@@ -89,3 +89,5 @@ select emp_no , department , salary
 select emp_no , department , salary , lag(salary ,2) over(order by salary desc) from employees;
 
 
+
+
